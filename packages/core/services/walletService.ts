@@ -1,7 +1,7 @@
-import { TransactionResponse, TransactionsResponse, TransactionType, WalletResponse } from "@mark-saravi-digital-wallet/core/wallet/wallets";
-import repo, { WalletRepository } from "@mark-saravi-digital-wallet/core/repositories/walletRepository";
+import { TransactionResponse, TransactionsResponse, TransactionType, WalletResponse } from "@mark-saravi-digital-wallet/core/wallets";
+import { WalletRepository } from "@mark-saravi-digital-wallet/core/repositories/walletRepository";
 
-class WalletService {
+export class WalletService {
     repo: WalletRepository;
 
     constructor(repo: WalletRepository) {
@@ -17,22 +17,12 @@ class WalletService {
     }
 
     getTransacgtionsHistory(userId: string): TransactionsResponse {
-        const response = this.repo.getWallet(userId);
-        if (response.statusCode == 404) {
-            return {
-                statusCode: response.statusCode,
-                transactionHistory: []
-            }
-        }
-        const transactionHistory = response.wallet?.transactionHistory
+        const response = this.repo.getWalletTransactions(userId);
+        const {statusCode, transactionHistory} = response;
         return {
-            statusCode: 200,
-            transactionHistory: transactionHistory ? transactionHistory : []
+            statusCode,
+            userId,
+            transactionHistory
         }
     }
 }
-
-const service=new WalletService(repo);
-
-export { WalletService };
-export default service;

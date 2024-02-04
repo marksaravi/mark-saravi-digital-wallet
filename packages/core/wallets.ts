@@ -16,7 +16,8 @@ type Wallet = {
 
 type WalletResponse = {
     statusCode: number;
-    wallet?: Wallet;
+    userId: string;
+    credit: number;
 }
 
 type TransactionResponse = {
@@ -27,6 +28,7 @@ type TransactionResponse = {
 }
 type TransactionsResponse = {
     statusCode: number;
+    userId: string;
     transactionHistory: Transaction[];
 }
 
@@ -34,7 +36,6 @@ type Wallets = {
     [userId: string]: Wallet;
 }
 
-const wallets: Wallets = {};
-
 export { Transaction, TransactionResponse, TransactionsResponse, TransactionType, Wallet, Wallets, WalletResponse }
+const wallets: Wallets={};
 export default wallets;

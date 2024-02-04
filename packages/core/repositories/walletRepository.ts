@@ -1,16 +1,11 @@
-import wallets, { TransactionResponse, TransactionType, Wallet, Wallets, WalletResponse } from "@mark-saravi-digital-wallet/core/wallet/wallets";
+import wallets, { TransactionResponse, TransactionType, Wallet, Wallets, WalletResponse, TransactionsResponse } from "@mark-saravi-digital-wallet/core/wallets";
 
 export class WalletRepository {
-    wallets: Wallets;
-    constructor(wallets: Wallets) {
-        this.wallets = wallets;
-    }
-
     createWallet(userId: string): number {
-        if (userId in this.wallets) {
+        if (userId in wallets) {
             return 200;
         } else {
-            this.wallets[userId] = {
+            wallets[userId] = {
                 userId,
                 credit: 0,
                 transactionHistory: []
@@ -22,7 +17,7 @@ export class WalletRepository {
     // This transaction must be done by Atomicity https://www.postgresql.org/docs/current/tutorial-transactions.html
     updateWallet(userId: string, amount: number, transactionType: TransactionType): TransactionResponse {
         const statusCode = this.createWallet(userId);
-        const user = this.wallets[userId];
+        const user = wallets[userId];
         const newCredit = transactionType == 'credit' ? user.credit + amount : user.credit - amount
         if (newCredit < 0) {
             return {
@@ -41,7 +36,7 @@ export class WalletRepository {
             credit: user.credit,
             createdAt
         });
-        this.wallets[userId] = user;
+        wallets[userId] = user;
         return {
             statusCode,
             updated: true,
@@ -51,14 +46,29 @@ export class WalletRepository {
     }
 
     getWallet(userId: string): WalletResponse {
-        if (userId in this.wallets) {
-            const wallet = this.wallets[userId];
-            return { statusCode: 200, wallet };
+        if (userId in wallets) {
+            const user = wallets[userId];
+            return {
+                statusCode: 200,
+                userId,
+                credit: user.credit
+            };
         } else {
-            return { statusCode: 404 };
+            return {
+                statusCode: 404,
+                userId,
+                credit: 0
+            };
+        }
+    }
+
+    getWalletTransactions(userId: string): TransactionsResponse {
+        if (wallets[userId]) {
+            const wallet = wallets[userId];
+            return { statusCode: 200, transactionHistory: wallet.transactionHistory, userId };
+        } else {
+            return { statusCode: 404, transactionHistory: [], userId };
         }
     }
 }
 
-const repo = new WalletRepository(wallets);
-export default repo;
