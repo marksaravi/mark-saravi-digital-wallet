@@ -7,7 +7,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   const repo = new WalletRepository();
   const service = new WalletService(repo);
   const transactions = JSON.parse(event.body || "{}");
-  const { id, amount, created_at, updated_at } = transactions;
+  const { id, amount, created_at, updated_at } = transactions["transactions"];
   const transaction_id = uuidv4();
   const response = service.updateWallet({ user_id: id, transaction_id, amount, created_at, updated_at });
 

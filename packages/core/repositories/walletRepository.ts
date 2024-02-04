@@ -4,6 +4,10 @@ function isoDate(): string {
     const creationDate = new Date(Date.now());
     return creationDate.toISOString();
 }
+
+function auDollarToCent(amount: number): number {
+    return amount*100
+}
 export class WalletRepository {
     createWallet(user_id: string): WalletResponse {
         let statusCode = 200;
@@ -31,15 +35,16 @@ export class WalletRepository {
     // This transaction must be done by Atomicity https://www.postgresql.org/docs/current/tutorial-transactions.html
     updateWallet(params: { user_id: string, transaction_id: string, amount: number, created_at: string, updated_at: string }): TransactionResponse {
         const { user_id, transaction_id, amount, created_at, updated_at } = params;
+        const amountInCent=auDollarToCent(amount);
         const walletResponse = this.createWallet(user_id);
         const { statusCode } = walletResponse;
         const user = wallets[user_id];
-        user.credit = user.credit + amount;
+        user.credit = user.credit + amountInCent;
         user.updated_at = updated_at;
         user.transactionHistory.push({
             user_id,
             transaction_id,
-            amount,
+            amount: amountInCent,
             credit: user.credit,
             created_at,
             updated_at,
