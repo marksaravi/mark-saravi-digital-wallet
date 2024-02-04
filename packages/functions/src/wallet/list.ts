@@ -5,14 +5,14 @@ import { WalletRepository } from "@mark-saravi-digital-wallet/core/repositories/
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   const repo = new WalletRepository();
   const service= new WalletService(repo);
-  const userId: string = (event?.pathParameters?.userid || "");
-  const response = service.getTransacgtionsHistory(userId)
+  const user_id: string = (event?.pathParameters?.userid || "");
+  const response = service.getTransacgtionsHistory(user_id)
 
   return response.statusCode == 200
     ? {
       statusCode: 200,
       body: JSON.stringify({
-        userId,
+        user_id,
         transactionHistory: response.transactionHistory
       }),
     }

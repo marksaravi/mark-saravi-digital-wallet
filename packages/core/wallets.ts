@@ -1,63 +1,80 @@
-type TransactionType = "credit" | "debit";
-
 type Transaction = {
-    transactionType: TransactionType;
+    user_id: string;
+    transaction_id: string;
     amount: number;
     credit: number;
-    createdAt: string;
+    created_at: string;
+    updated_at: string;
 }
 
 
 type Wallet = {
-    userId: string;
+    user_id: string;
     credit: number;
+    created_at: string;
+    updated_at: string;
     transactionHistory: Transaction[];
 }
 
 type WalletResponse = {
     statusCode: number;
-    userId: string;
+    user_id: string;
     credit: number;
+    created_at: string;
+    updated_at: string;
+    error: string;
 }
 
 type TransactionResponse = {
     statusCode: number;
-    updated: boolean;
+    transaction_id: string;
+    user_id: string;
     credit: number;
+    updated_at: string;
     error: string;
 }
-type TransactionsResponse = {
+
+type TransactionsHistoryResponse = {
     statusCode: number;
-    userId: string;
+    user_id: string;
     transactionHistory: Transaction[];
+    error: string;
 }
 
 type Wallets = {
-    [userId: string]: Wallet;
+    [user_id: string]: Wallet;
 }
 
-export { Transaction, TransactionResponse, TransactionsResponse, TransactionType, Wallet, Wallets, WalletResponse }
+export { Transaction, TransactionResponse, TransactionsHistoryResponse, WalletResponse, Wallet, Wallets }
 const wallets: Wallets = {
     "mark": {
-        "userId": "mark",
+        "user_id": "mark",
         "credit": 0,
+        "created_at": "2024-02-04",
+        "updated_at": "",
         "transactionHistory": []
     },
     "carol": {
-        "userId": "carol",
+        "user_id": "carol",
         "credit": 25,
+        "created_at": "2024-02-04",
+        "updated_at": "",
         "transactionHistory": [
             {
+                "user_id": "carol",
+                "transaction_id": "59f1cb10-0202-0138-225b-028e897a70a5",
                 "amount": 10,
                 "credit": 10,
-                "createdAt": "2024-02-04",
-                "transactionType": "credit"
+                "created_at": "2024-02-04",
+                "updated_at": "2024-02-04",
             },
             {
+                "user_id": "carol",
+                "transaction_id": "69f1cb10-0202-0138-225b-028e897a70a5",
                 "amount": 15,
                 "credit": 25,
-                "createdAt": "2024-02-04",
-                "transactionType": "credit"
+                "created_at": "2024-02-05",
+                "updated_at": "2024-02-05",
             }
         ]
     }

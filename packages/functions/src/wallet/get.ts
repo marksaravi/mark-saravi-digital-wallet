@@ -6,14 +6,14 @@ import { WalletRepository } from "@mark-saravi-digital-wallet/core/repositories/
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   const repo = new WalletRepository();
   const service= new WalletService(repo);
-  const userId: string = (event?.pathParameters?.userid || "");
-  const response = service.getWallet(userId)
+  const user_id: string = (event?.pathParameters?.userid || "");
+  const response = service.getWallet(user_id)
   const { statusCode, credit } = response;
 
   return {
     statusCode: statusCode,
     body: JSON.stringify({
-      userId,
+      user_id,
       credit
     }),
   }
