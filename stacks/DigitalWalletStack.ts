@@ -5,7 +5,7 @@ export function DigitalWalletStack({ stack }: StackContext) {
     routes: {
       "GET /wallet/{userid}": "packages/functions/src/wallet/get.handler",
       "GET /wallet/{userid}/transactions": "packages/functions/src/wallet/list.handler",
-      "POST /wallet/{userid}/credit": "packages/functions/src/wallet/update.handler",
+      "POST /wallet/credit": "packages/functions/src/wallet/update.handler",
     },
   });
 
