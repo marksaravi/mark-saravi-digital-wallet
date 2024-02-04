@@ -37,5 +37,29 @@ type Wallets = {
 }
 
 export { Transaction, TransactionResponse, TransactionsResponse, TransactionType, Wallet, Wallets, WalletResponse }
-const wallets: Wallets={};
+const wallets: Wallets = {
+    "mark": {
+        "userId": "mark",
+        "credit": 0,
+        "transactionHistory": []
+    },
+    "carol": {
+        "userId": "carol",
+        "credit": 25,
+        "transactionHistory": [
+            {
+                "amount": 10,
+                "credit": 10,
+                "createdAt": "2024-02-04",
+                "transactionType": "credit"
+            },
+            {
+                "amount": 15,
+                "credit": 25,
+                "createdAt": "2024-02-04",
+                "transactionType": "credit"
+            }
+        ]
+    }
+};
 export default wallets;
