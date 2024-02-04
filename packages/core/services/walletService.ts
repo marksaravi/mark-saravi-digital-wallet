@@ -30,5 +30,9 @@ class WalletService {
             transactionHistory: transactionHistory ? transactionHistory : []
         }
     }
-
 }
+
+const service=new WalletService(repo);
+
+export { WalletService };
+export default service;

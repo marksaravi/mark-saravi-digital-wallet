@@ -21,27 +21,31 @@ export class WalletRepository {
 
     // This transaction must be done by Atomicity https://www.postgresql.org/docs/current/tutorial-transactions.html
     updateWallet(userId: string, amount: number, transactionType: TransactionType): TransactionResponse {
-        const createStatus = this.createWallet(userId);
+        const statusCode = this.createWallet(userId);
         const user = this.wallets[userId];
         const newCredit = transactionType == 'credit' ? user.credit + amount : user.credit - amount
         if (newCredit < 0) {
             return {
-                createStatus,
+                statusCode,
                 updated: false,
+                credit: user.credit,
                 error: "not enough credit"
             };
         }
         user.credit = newCredit;
+        const creationDate = new Date(Date.now());
+        const createdAt = creationDate.toISOString()
         user.transactionHistory.push({
             transactionType,
             amount,
             credit: user.credit,
-            createdAt: Date.now()
+            createdAt
         });
         this.wallets[userId] = user;
         return {
-            createStatus,
+            statusCode,
             updated: true,
+            credit: user.credit,
             error: "",
         };
     }

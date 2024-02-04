@@ -4,7 +4,7 @@ type Transaction = {
     transactionType: TransactionType;
     amount: number;
     credit: number;
-    createdAt: number;
+    createdAt: string;
 }
 
 
@@ -20,8 +20,9 @@ type WalletResponse = {
 }
 
 type TransactionResponse = {
-    createStatus: number;
+    statusCode: number;
     updated: boolean;
+    credit: number;
     error: string;
 }
 type TransactionsResponse = {
